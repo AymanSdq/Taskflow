@@ -2,10 +2,41 @@
     import { Button } from "@/components/ui/button"
     import { Input } from "@/components/ui/input"
     import { Label } from "@/components/ui/label"
+    import { useState } from "react"
+import { registerUser } from "@/types/userInterface"
+import { useRegister } from "@/services/mutations"
+
+
 
     export function RegisterForm({ className, ...props }: React.ComponentProps<"form">) {
+
+        const registerUserMutation = useRegister()
+    
+        const [registerData , setRegisterData ] = useState<registerUser>({
+            fullname : "",
+            email : "",
+            password : ""
+        })
+
+        const handleChange = (event : React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+            const {name, value} = event.target
+
+            setRegisterData({
+                ...registerData,
+                [name] : value
+            })
+        }  
+
+        const handleSubmit = (e : React.FormEvent<HTMLFormElement>) => {
+            e.preventDefault()
+            registerUserMutation.mutate(registerData)
+        } 
+        
+
+
+
     return (
-        <form className={cn("flex flex-col gap-6", className)} {...props}>
+        <form onSubmit={handleSubmit} className={cn("flex flex-col gap-6", className)} {...props}>
         <div className="flex flex-col items-center gap-2 text-center">
             <h1 className="text-2xl font-bold">Create an account</h1>
             <p className="text-muted-foreground text-sm text-balance">
@@ -15,17 +46,17 @@
         <div className="grid gap-6">
             <div className="grid gap-3">
                 <Label htmlFor="fullname">Full name</Label>
-                <Input id="fullname" type="text" placeholder="Joe Doe" required />
+                <Input onChange={handleChange} value={registerData.fullname} name="fullname" type="text" placeholder="Joe Doe" required />
             </div>
             <div className="grid gap-3">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" placeholder="m@example.com" required />
+                <Input onChange={handleChange} value={registerData.email} name="email" type="email" placeholder="m@example.com" required />
             </div>
             <div className="grid gap-3">
             <div className="flex items-center">
                 <Label htmlFor="password">Password</Label>
             </div>
-                <Input id="password" type="password" required />
+                <Input onChange={handleChange} value={registerData.password} name="password" type="password" required />
             </div>
                 <Button type="submit" className="w-full">
                     Login
