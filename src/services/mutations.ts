@@ -7,9 +7,14 @@ export const useRegister = () => {
 
     return useMutation({
         mutationFn : (data : registerUser) => createUser(data),
-        onSuccess : () => {
-            
-        }
+        onSuccess: (data) => {
+            console.log("✅ Success:", data);
+        },
+        onError: (error : Error) => {
+            console.error("❌ Error:", error);
+        },
+        
+        
     })
 
 }

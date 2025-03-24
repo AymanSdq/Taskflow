@@ -7,6 +7,13 @@ const axiosInstance = axios.create({baseURL : BASE_URL})
 
 // Register Instance
 export const createUser = async (data : registerUser) => {
-    
-    await axiosInstance.post('/user/register', data)
+    try{
+        const response = await axiosInstance.post("/user/register", data);
+        return response.data; // Return response data for success handling
+    }catch(error : any){
+        if (axios.isAxiosError(error)) {
+            throw error
+        }
+        throw new Error("Network error");
+    }
 }
