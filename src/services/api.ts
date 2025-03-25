@@ -1,4 +1,4 @@
-import { registerUser } from "@/types/userInterface";
+import { loginUser, registerUser } from "@/types/userInterface";
 import axios from "axios";
 
 const BASE_URL = "http://localhost:3000";
@@ -11,6 +11,18 @@ export const createUser = async (data : registerUser) => {
         const response = await axiosInstance.post("/user/register", data);
         return response.data; // Return response data for success handling
     }catch(error : any){
+        if (axios.isAxiosError(error)) {
+            throw error
+        }
+        throw new Error("Network error");
+    }
+}
+
+export const logUser = async (data : loginUser) => {
+    try {
+        const response = await axiosInstance.post("/user/login", data)
+        return response.data
+    } catch (error : any) {
         if (axios.isAxiosError(error)) {
             throw error
         }

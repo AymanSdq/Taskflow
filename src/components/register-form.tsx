@@ -8,7 +8,7 @@ import { useRegister } from "@/services/mutations"
 import { useNavigate } from "react-router"
 
 
-
+ 
     export function RegisterForm({ className, ...props }: React.ComponentProps<"form">) {
 
         const registerUserMutation = useRegister()
@@ -38,8 +38,9 @@ import { useNavigate } from "react-router"
         if(registerUserMutation.isSuccess){
             setTimeout(() => {
                 navigate("/login")
-            },3000)
+            },2000)
         }
+
 
     return (
         <form onSubmit={handleSubmit} className={cn("flex flex-col gap-6", className)} {...props}>
@@ -52,17 +53,17 @@ import { useNavigate } from "react-router"
         <div className="grid gap-6">
             <div className="grid gap-3">
                 <Label htmlFor="fullname">Full name</Label>
-                <Input onChange={handleChange} value={registerData.fullname} name="fullname" type="text" placeholder="Joe Doe" required />
+                <Input onChange={handleChange} value={registerData.fullname} name="fullname" type="text" placeholder="Joe Doe"  />
             </div>
             <div className="grid gap-3">
                 <Label htmlFor="email">Email</Label>
-                <Input onChange={handleChange} value={registerData.email} name="email" type="email" placeholder="m@example.com" required />
+                <Input onChange={handleChange} value={registerData.email} name="email" type="email" placeholder="m@example.com"  />
             </div>
             <div className="grid gap-3">
             <div className="flex items-center">
                 <Label htmlFor="password">Password</Label>
             </div>
-                <Input onChange={handleChange} value={registerData.password} name="password" type="password" required />
+                <Input onChange={handleChange} value={registerData.password} name="password" type="password"  />
             </div>
                 {/* On success message */}
                 {registerUserMutation.isSuccess && 
@@ -75,19 +76,29 @@ import { useNavigate } from "react-router"
                         <span className="font-medium">Account Created Successffully !</span> Redirection to the Home page.
                     </div>
                 </div>}
-                
+
+                {registerUserMutation.isError && 
+                <div className="flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800" role="alert">
+                <span className="sr-only">Info</span>
+                <div>
+                    <ul className="text-sm text-red-400 list-disc ml-3">
+                        {(registerUserMutation.error as any)?.response?.data?.error?.map(
+                        (errMsg: string, index: number) => (
+                            <li className="mb-1" key={index}>{errMsg}</li>
+                        )
+                        )}
+                    </ul>
+                </div>
+                </div>
+                }
+
                 <Button type="submit" className="w-full" disabled={registerUserMutation.isPending}>
                     Login
                 </Button>
                 <div className="text-sm text-red-400">
                 
                 </div>
-            <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
-            <span className="bg-background text-muted-foreground relative z-10 px-2">
-                Or continue with
-            </span>
             </div>
-        </div>
         <div className="text-center text-sm">
             Already have an account?{" "}
             <a href="/login" className="underline underline-offset-4">

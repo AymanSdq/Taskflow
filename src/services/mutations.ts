@@ -1,6 +1,6 @@
-import { registerUser } from "@/types/userInterface"
+import { loginUser, registerUser } from "@/types/userInterface"
 import { useMutation } from "@tanstack/react-query"
-import { createUser } from "./api"
+import { createUser, logUser } from "./api"
 
 // register
 export const useRegister = () => {
@@ -17,4 +17,18 @@ export const useRegister = () => {
         
     })
 
+}
+
+
+export const useLogin = () => {
+    
+    return useMutation({
+        mutationFn : (data : loginUser) => logUser(data),
+        onSuccess: (data) => {
+            console.log("✅ Success:", data);
+        },
+        onError: (error : Error) => {
+            console.error("❌ Error:", error);
+        },
+    })
 }
