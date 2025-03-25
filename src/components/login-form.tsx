@@ -72,11 +72,21 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"form">)
                 <span className="sr-only">Info</span>
                 <div>
                     <ul className="text-sm text-red-400 list-disc ml-3">
-                        {(loginUserMutation.error as any)?.response?.data?.error?.map(
-                        (errMsg: string, index: number) => (
-                            <li className="mb-1" key={index}>{errMsg}</li>
-                        )
-                        )}
+                    {loginUserMutation.error && (
+                        <div className="text-sm text-red-400">
+                          {Array.isArray((loginUserMutation.error as any)?.response?.data?.error) ? (
+                            <ul>
+                              {(loginUserMutation.error as any)?.response?.data?.error.map(
+                                (errMsg: string, index: number) => (
+                                  <li className="mb-1" key={index}>{errMsg}</li>
+                                )
+                              )}
+                            </ul>
+                          ) : (
+                            <p>{(loginUserMutation.error as any)?.response?.data?.error}</p>
+                          )}
+                        </div>
+                    )}
                     </ul>
                 </div>
                 </div>

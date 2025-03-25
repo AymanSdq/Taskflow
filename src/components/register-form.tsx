@@ -82,10 +82,20 @@ import { useNavigate } from "react-router"
                 <span className="sr-only">Info</span>
                 <div>
                     <ul className="text-sm text-red-400 list-disc ml-3">
-                        {(registerUserMutation.error as any)?.response?.data?.error?.map(
-                        (errMsg: string, index: number) => (
-                            <li className="mb-1" key={index}>{errMsg}</li>
-                        )
+                    {registerUserMutation.error && (
+                        <div className="text-sm text-red-400">
+                            {Array.isArray((registerUserMutation.error as any)?.response?.data?.error) ? (
+                            <ul>
+                                {(registerUserMutation.error as any)?.response?.data?.error.map(
+                                (errMsg: string, index: number) => (
+                                    <li className="mb-1" key={index}>{errMsg}</li>
+                                )
+                                )}
+                            </ul>
+                            ) : (
+                            <p>{(registerUserMutation.error as any)?.response?.data?.error}</p>
+                            )}
+                        </div>
                         )}
                     </ul>
                 </div>
