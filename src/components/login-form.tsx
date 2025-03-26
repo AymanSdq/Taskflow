@@ -41,7 +41,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"form">)
       <div className="grid gap-6">
         <div className="grid gap-3">
           <Label htmlFor="email">Email</Label>
-          <Input onChange={handleChange} name="email" type="email" placeholder="m@example.com"  />
+          <Input onChange={handleChange} name="email" type="text" placeholder="m@example.com"  />
         </div>
         <div className="grid gap-3">
           <div className="flex items-center">

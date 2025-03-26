@@ -9,6 +9,7 @@ export const useRegister = () => {
         mutationFn : (data : registerUser) => createUser(data),
         onSuccess: (data) => {
             console.log("✅ Success:", data);
+
         },
         onError: (error : Error) => {
             console.error("❌ Error:", error);
@@ -26,6 +27,7 @@ export const useLogin = () => {
         mutationFn : (data : loginUser) => logUser(data),
         onSuccess: (data) => {
             console.log("✅ Success:", data);
+            localStorage.setItem("token", data.Token)
         },
         onError: (error : Error) => {
             console.error("❌ Error:", error);

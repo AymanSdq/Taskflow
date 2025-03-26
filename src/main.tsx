@@ -7,6 +7,7 @@ import Login from './pages/Login.tsx'
 import { QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { ThemeProvider } from "@/components/theme-provider"
+import ProtectedRoutes from './services/ProtectedRoutes.tsx'
 
 
 const queryClient = new QueryClient()
@@ -20,7 +21,7 @@ createRoot(document.getElementById('root')!).render(
         {/* Routes */}
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<App />} />
+            <Route path="/" element={<ProtectedRoutes> <App /> </ProtectedRoutes>} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
           </Routes>
