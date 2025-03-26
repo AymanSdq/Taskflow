@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import { loginUser } from "@/types/userInterface"
 import { useLogin } from "@/services/mutations"
+import { useNavigate } from "react-router"
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"form">) { 
 
@@ -29,6 +30,13 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"form">)
       loginUserMutation.mutate(loginData)
   }
 
+  // Redirect to dashboard
+  let navigate = useNavigate()
+  if(loginUserMutation.isSuccess){
+    setTimeout(() => {
+      navigate("/")
+    },2000)
+  }
 
   return (
     <form onSubmit={handleSubmit} className={cn("flex flex-col gap-6", className)} {...props}>

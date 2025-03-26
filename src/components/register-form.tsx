@@ -103,7 +103,7 @@ import { useNavigate } from "react-router"
                 }
 
                 <Button type="submit" className="w-full" disabled={registerUserMutation.isPending}>
-                    Login
+                    Register
                 </Button>
                 <div className="text-sm text-red-400">
                 
