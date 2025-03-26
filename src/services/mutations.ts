@@ -27,7 +27,7 @@ export const useLogin = () => {
         mutationFn : (data : loginUser) => logUser(data),
         onSuccess: (data) => {
             console.log("✅ Success:", data);
-            localStorage.setItem("token", data.Token)
+            localStorage.setItem("token", data.token)
         },
         onError: (error : Error) => {
             console.error("❌ Error:", error);

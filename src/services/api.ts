@@ -18,11 +18,24 @@ export const createUser = async (data : registerUser) => {
     }
 }
 
+// Login
 export const logUser = async (data : loginUser) => {
     try {
         const response = await axiosInstance.post("/user/login", data)
         return response.data
     } catch (error : any) {
+        if (axios.isAxiosError(error)) {
+            throw error
+        }
+        throw new Error("Network error");
+    }
+}
+
+// Get User data 
+export const getUser = async ( data : string ) => {
+    try {
+        const response = await axios.get("/user/getuser")
+    } catch (error) {
         if (axios.isAxiosError(error)) {
             throw error
         }
