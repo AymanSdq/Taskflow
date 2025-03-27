@@ -9,7 +9,7 @@ export default function Register() {
         const token = localStorage.getItem("token")
 
         if(token){
-            navigate("/")
+            navigate("/login")
         }
 
     }, [])
