@@ -26,22 +26,22 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
+
+
+
+
+
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   navMain: [
     {
-      title: "Playground",
-      url: "#",
+      title: "Statistics",
+      url: "/dashboard/",
       icon: SquareTerminal,
       isActive: true,
       items: [
         {
-          title: "History",
-          url: "#",
+          title: "Profile",
+          url: "profile",
         },
         {
           title: "Starred",
@@ -163,9 +163,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <a href="#">
                 <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                   <Command className="size-4" />
+                  <img src="/taskflow.svg" alt="Taskflow" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">Acme Inc</span>
+                  <span className="truncate font-medium">Taskflow</span>
                   <span className="truncate text-xs">Enterprise</span>
                 </div>
               </a>
@@ -179,7 +180,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser  />
       </SidebarFooter>
     </Sidebar>
   )

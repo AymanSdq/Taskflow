@@ -1,4 +1,3 @@
-"use client"
 
 import {
   BadgeCheck,
@@ -30,24 +29,26 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { useNavigate } from "react-router"
+import { useUserData } from "@/services/query"
+import { Skeleton } from "@/components/ui/skeleton"
 
-export function NavUser({
-  user,
-}: {
-  user: {
-    name: string
-    email: string
-    avatar: string
-  }
-}) {
+
+
+
+
+export function NavUser() {
+
+
+
   const { isMobile } = useSidebar()
+
+  const { data : userData , isLoading : userDataLoading, isError : userDataError, isSuccess : userDataSuccess } = useUserData();
+
 
   // Log out method
   const navigate = useNavigate()
-
   const handleLogout =  async () => {
       localStorage.removeItem('token')
-      
       setTimeout(() => {
         if(!localStorage.getItem("token")){
           navigate("/login")
@@ -55,25 +56,44 @@ export function NavUser({
       }, 1000);
   }
 
+
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <SidebarMenuButton
-              size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-            >
-              <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-              </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
-                <span className="truncate text-xs">{user.email}</span>
-              </div>
-              <ChevronsUpDown className="ml-auto size-4" />
+
+
+            <SidebarMenuButton size="lg" className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+              {userDataSuccess &&  <>
+                  <Avatar className="h-8 w-8 rounded-lg">
+                    {/* Avatar */}
+                      <AvatarImage src={userData.data.avatarurl} alt={userData.data.fullname} />
+                  </Avatar>
+                  <div className="grid flex-1 text-left text-sm leading-tight">
+                    {/* Fullname */}
+                    <span className="truncate font-medium">{userData.data.fullname}</span>
+                    {/* Email */}
+                    <span className="truncate text-xs">{userData.data.email}</span>
+                  </div>
+                  <ChevronsUpDown className="ml-auto size-4" />
+                </>
+              }
+              {userDataError || userDataLoading &&
+                <div className="flex items-center space-x-4">
+                  <Skeleton className="h-12 w-12 rounded-full" />
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-[250px]" />
+                    <Skeleton className="h-4 w-[200px]" />
+                  </div>
+                </div>
+
+              }
             </SidebarMenuButton>
+
+        
+
           </DropdownMenuTrigger>
           <DropdownMenuContent
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
@@ -82,16 +102,34 @@ export function NavUser({
             sideOffset={4}
           >
             <DropdownMenuLabel className="p-0 font-normal">
-              <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-                </Avatar>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
-                  <span className="truncate text-xs">{user.email}</span>
+
+              {userDataSuccess && 
+                
+                <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                  <Avatar className="h-8 w-8 rounded-lg">
+                    {/* Avatar */}
+                    <AvatarImage src={userData.data.avatarurl} alt={userData.data.fullname} />
+                    {/*  */}
+                    <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  </Avatar>
+                  <div className="grid flex-1 text-left text-sm leading-tight">
+                    <span className="truncate font-medium">{userData.data.fullname}</span>
+                    <span className="truncate text-xs">{userData.data.email}</span>
+                  </div>
                 </div>
-              </div>
+                
+              }
+
+              {userDataError || userDataLoading &&
+                <div className="flex items-center space-x-4">
+                  <Skeleton className="h-12 w-12 rounded-full" />
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-[250px]" />
+                    <Skeleton className="h-4 w-[200px]" />
+                  </div>
+                </div>
+
+              }
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>

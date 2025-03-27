@@ -5,6 +5,7 @@ const BASE_URL = "http://localhost:3000";
 const axiosInstance = axios.create({baseURL : BASE_URL})
 
 
+
 // Register Instance
 export const createUser = async (data : registerUser) => {
     try{
@@ -32,9 +33,14 @@ export const logUser = async (data : loginUser) => {
 }
 
 // Get User data 
-export const getUser = async ( data : string ) => {
+export const getUser = async ( token : string) => {
     try {
-        const response = await axios.get("/user/getuser")
+        const response = await axiosInstance.get("/user/getuser", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return response.data
     } catch (error) {
         if (axios.isAxiosError(error)) {
             throw error
@@ -42,3 +48,4 @@ export const getUser = async ( data : string ) => {
         throw new Error("Network error");
     }
 }
+
