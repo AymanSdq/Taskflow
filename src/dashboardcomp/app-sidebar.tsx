@@ -41,7 +41,7 @@ const data = {
       items: [
         {
           title: "Profile",
-          url: "profile",
+          url: "#",
         },
         {
           title: "Starred",
