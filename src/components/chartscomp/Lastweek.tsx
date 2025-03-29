@@ -1,98 +1,110 @@
-import { TrendingUp } from "lucide-react"
-import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from "recharts"
-import {Card, CardContent,CardDescription, CardFooter, CardHeader,   CardTitle,} from "@/components/ui/card"
-import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent, } from "@/components/ui/chart"
-const chartData = [
-    { month: "Monday", desktop: 186, mobile: 80 },
-    { month: "Tuesday", desktop: 305, mobile: 200 },
-    { month: "Wednesday", desktop: 237, mobile: 120 },
-    { month: "Thursday", desktop: 73, mobile: 190 },
-    { month: "Friday", desktop: 209, mobile: 130 },
-    { month: "Saturday", desktop: 214, mobile: 140 },
-    { month: "Sunday", desktop: 114, mobile: 80 },
-]
+import { TrendingUp } from "lucide-react";
+import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+const chartData = [{ month: "january", desktop: 1260, mobile: 570 }];
 const chartConfig = {
-    desktop: {
-        label: "Desktop",
-        color: "hsl(var(--chart-1))",
-    },
-    mobile: {
-        label: "Mobile",
-        color: "hsl(var(--chart-2))",
-    },
-    label: {
-        color: "hsl(var(--background))",
-    },
-    } satisfies ChartConfig
+  desktop: {
+    label: "Desktop",
+    color: "hsl(var(--chart-1))",
+  },
+  mobile: {
+    label: "Mobile",
+    color: "hsl(var(--chart-2))",
+  },
+} satisfies ChartConfig;
 
 const Lastweek = () => {
-    return (
-        <>
-            <Card>
-            <CardHeader>
-                <CardTitle>Last week - Progress</CardTitle>
-                <CardDescription>Monday - Sunday 2025</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <ChartContainer config={chartConfig}>
-                <BarChart
-                    accessibilityLayer
-                    data={chartData}
-                    layout="vertical"
-                    margin={{
-                    right: 16,
-                    }}
-                >
-                    <CartesianGrid horizontal={false} />
-                    <YAxis
-                    dataKey="month"
-                    type="category"
-                    tickLine={false}
-                    tickMargin={10}
-                    axisLine={false}
-                    tickFormatter={(value) => value.slice(0, 3)}
-                    hide
-                    />
-                    <XAxis dataKey="desktop" type="number" hide />
-                    <ChartTooltip
-                    cursor={false}
-                    content={<ChartTooltipContent indicator="line" />}
-                    />
-                    <Bar
-                    dataKey="desktop"
-                    layout="vertical"
-                    fill="var(--color-desktop)"
-                    radius={4}
-                    >
-                    <LabelList
-                        dataKey="month"
-                        position="insideLeft"
-                        offset={8}
-                        className="fill-[--color-label]"
-                        fontSize={12}
-                    />
-                    <LabelList
-                        dataKey="desktop"
-                        position="right"
-                        offset={8}
-                        className="fill-foreground"
-                        fontSize={12}
-                    />
-                    </Bar>
-                </BarChart>
-                </ChartContainer>
-            </CardContent>
-            <CardFooter className="flex-col items-start gap-2 text-sm">
-                <div className="flex gap-2 font-medium leading-none">
-                Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-                </div>
-                <div className="leading-none text-muted-foreground">
-                Showing total visitors for the last 6 months
-                </div>
-            </CardFooter>
-            </Card>
-        </>
-    )
-}
+  const totalVisitors = chartData[0].desktop + chartData[0].mobile;
 
-export default Lastweek
+  return (
+    <>
+      <Card className="flex flex-col">
+        <CardHeader className="items-center pb-0">
+          <CardTitle>Radial Chart - Stacked</CardTitle>
+          <CardDescription>January - June 2024</CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-1 items-center pb-0">
+          <ChartContainer
+            config={chartConfig}
+            className="mx-auto aspect-square w-full max-w-[250px]"
+          >
+            <RadialBarChart
+              data={chartData}
+              endAngle={180}
+              innerRadius={80}
+              outerRadius={130}
+            >
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent hideLabel />}
+              />
+              <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
+                <Label
+                  content={({ viewBox }) => {
+                    if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                      return (
+                        <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
+                          <tspan
+                            x={viewBox.cx}
+                            y={(viewBox.cy || 0) - 16}
+                            className="fill-foreground text-2xl font-bold"
+                          >
+                            {totalVisitors.toLocaleString()}
+                          </tspan>
+                          <tspan
+                            x={viewBox.cx}
+                            y={(viewBox.cy || 0) + 4}
+                            className="fill-muted-foreground"
+                          >
+                            Visitors
+                          </tspan>
+                        </text>
+                      );
+                    }
+                  }}
+                />
+              </PolarRadiusAxis>
+              <RadialBar
+                dataKey="desktop"
+                stackId="a"
+                cornerRadius={5}
+                fill="var(--color-desktop)"
+                className="stroke-transparent stroke-2"
+              />
+              <RadialBar
+                dataKey="mobile"
+                fill="var(--color-mobile)"
+                stackId="a"
+                cornerRadius={5}
+                className="stroke-transparent stroke-2"
+              />
+            </RadialBarChart>
+          </ChartContainer>
+        </CardContent>
+        <CardFooter className="flex-col gap-2 text-sm">
+          <div className="flex items-center gap-2 font-medium leading-none">
+            Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+          </div>
+          <div className="leading-none text-muted-foreground">
+            Showing total visitors for the last 6 months
+          </div>
+        </CardFooter>
+      </Card>
+    </>
+  );
+};
+
+export default Lastweek;
