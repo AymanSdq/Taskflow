@@ -20,9 +20,18 @@ const Profileedit = () => {
                         <Label htmlFor="fullname">Fullname</Label>
                         <Input type="text" id="fullname" placeholder="Fullname" />
                     </div>
+                    <Button className="my-4">Save</Button>
+                </form>
+                <form action="" className="py-4">
+                    <h1 className="text-xl font-bold">Password settings : </h1>
+                    {/* User */}
                     <div className="grid w-full my-4 max-w-sm items-center gap-3">
-                        <Label htmlFor="email">Email</Label>
-                        <Input type="email" id="email" placeholder="Email" />
+                        <Label htmlFor="oldpass">Old Password</Label>
+                        <Input type="password" id="oldpass" placeholder="Enter old password" />
+                    </div>
+                    <div className="grid w-full my-4 max-w-sm items-center gap-3">
+                        <Label htmlFor="newpass">New Password</Label>
+                        <Input type="password" id="newpass" placeholder="Enter new password" />
                     </div>
                     <Button className="my-4">Save</Button>
                 </form>

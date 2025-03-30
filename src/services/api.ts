@@ -1,7 +1,7 @@
 import { loginUser, registerUser } from "@/types/userInterface";
 import axios from "axios";
 
-const BASE_URL = "http://192.168.0.151:3000";
+const BASE_URL = "http://192.168.11.103:3000";
 const axiosInstance = axios.create({baseURL : BASE_URL})
 
 
