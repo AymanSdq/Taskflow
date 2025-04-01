@@ -38,7 +38,7 @@ const Profileedit = () => {
             </div>
 
             {/* Formulater */}
-            <div className="col-span-1">
+            <div className="col-span-1 flex items-center justify-center border rounded-md">
                 <form action="" className="py-4">
                     <h1 className="text-xl font-bold">User settings : </h1>
                     {/* Image */}
@@ -54,8 +54,8 @@ const Profileedit = () => {
                     <Button className="my-4">Save</Button>
                 </form>
             </div>
-            <div>
-                <form action="" className="py-4">
+            <div className="col-span-1 flex items-center justify-center border rounded-md">
+                <form action="" className="py-4 w-full px-4">
                     <h1 className="text-xl font-bold">Password settings : </h1>
                     {/* User */}
                     <div className="grid w-full my-4 max-w-sm items-center gap-3">
