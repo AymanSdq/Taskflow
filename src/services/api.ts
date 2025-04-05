@@ -1,7 +1,8 @@
-import { loginUser, registerUser } from "@/types/userInterface";
+import { loginUser, passwordUser, registerUser } from "@/types/userInterface";
 import axios from "axios";
+import { data } from "react-router";
 
-const BASE_URL = "http://192.168.100.61:3000";
+const BASE_URL = "http://192.168.11.107:3000";
 const axiosInstance = axios.create({baseURL : BASE_URL})
 
 
@@ -49,3 +50,19 @@ export const getUser = async ( token : string) => {
     }
 }
 
+// Change Password 
+export const changePass = async (data : passwordUser, token : string) => {
+    try {
+        const response = await axiosInstance.post("/user/changepassword",  data , {
+            headers : {
+                Authorization: `Bearer ${token}`
+            }
+        } );
+        return response.data
+    } catch (error : any) {
+        if (axios.isAxiosError(error)) {
+            throw error
+        }
+        throw new Error("Network error");
+    }
+}

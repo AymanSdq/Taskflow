@@ -1,7 +1,10 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { usePassChange } from "@/services/mutations"
 import { useUserData } from "@/services/query"
+import { passwordUser } from "@/types/userInterface"
+import { useState } from "react"
 
 
 // Call the data and post it so we can updat the suer data 
@@ -9,10 +12,27 @@ import { useUserData } from "@/services/query"
 
 const Profileedit = () => {
 
+    // Handeling password change
+    const changePassMutation = usePassChange()
+    const [password , setPassword ] = useState<passwordUser>({
+        oldpassword : "",
+        newpassword : ""
+    })
+    const handlePassChange = (event : React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const {name, value} = event.target
+        setPassword({
+            ...password,
+            [name] : value
+        })
+    }
+    const handlePassSubmit = (event : React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        changePassMutation.mutate(password)
+    }
+
 
     const { data : userData , isLoading : userDataLoading, isError : userDataError, isSuccess : userDataSuccess } = useUserData();
 
-    console.log(userData)
 
     return (
         <div className="flex flex-1 flex-col gap-4 p-4">
@@ -56,18 +76,18 @@ const Profileedit = () => {
                 </form>
             </div>
             <div className="col-span-1 flex items-center justify-center border rounded-md">
-                <form action="" className="py-4 w-full px-4">
+                <form onSubmit={handlePassSubmit} action="" className="py-4 w-full px-4">
                     <h1 className="text-xl font-bold">Password settings : </h1>
                     {/* User */}
                     <div className="grid w-full my-4 max-w-sm items-center gap-3">
                         <Label htmlFor="oldpass">Old Password</Label>
-                        <Input type="password" id="oldpass" placeholder="Enter old password" />
+                        <Input type="password" onChange={handlePassChange} name="oldpassword" placeholder="Enter old password" />
                     </div>
                     <div className="grid w-full my-4 max-w-sm items-center gap-3">
                         <Label htmlFor="newpass">New Password</Label>
-                        <Input type="password" id="newpass" placeholder="Enter new password" />
+                        <Input type="password" onChange={handlePassChange} name="newpassword" placeholder="Enter new password" />
                     </div>
-                    <Button className="my-4">Save</Button>
+                    <Button className="my-4">Change Password</Button>
                 </form>
             </div>
             {/* <div className="aspect-video rounded-xl bg-muted/50" />  */}
