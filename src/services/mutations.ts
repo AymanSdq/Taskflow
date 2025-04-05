@@ -48,7 +48,7 @@ export const usePassChange = () => {
             console.log("✅ Success:", data);
         },
         onError : (error : Error) => {
-            console.error("❌ Error:", error);
+            console.error("❌ Error:", error.message);
         },
         
     })
