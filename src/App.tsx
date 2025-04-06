@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard.tsx'
 import Statistics from './pages/Statistics.tsx'
 import HomePage from './pages/HomePage.tsx'
 import Profileedit from './pages/Profileedit.tsx'
+import MyTasks from './pages/MyTasks.tsx'
 
 
 export default function Page() {
@@ -27,6 +28,7 @@ export default function Page() {
             <Route path="/dashboard" element={<ProtectedRoutes> <Dashboard /> </ProtectedRoutes>}>
               <Route index element={<Statistics />} />  {/* Default page when visiting /dashboard */}
               <Route path="profileedit" element={<Profileedit/>} />
+              <Route path="mytasks" element={<MyTasks/>} />
             </Route>
               
 

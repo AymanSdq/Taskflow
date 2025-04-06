@@ -40,8 +40,8 @@ const data = {
       isActive: true,
       items: [
         {
-          title: "Profile",
-          url: "#",
+          title: "My Tasks",
+          url: "mytasks",
         },
         {
           title: "Starred",
