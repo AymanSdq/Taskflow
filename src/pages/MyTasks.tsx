@@ -1,11 +1,11 @@
 import { useGetAllTasks } from "@/services/query";
-import { useState } from "react";
+
 
 const MyTasks = () => {
 
     const { data: allTasks, isError: allTasksError, isSuccess: allTasksSuccess, isLoading: allTasksLoading} = useGetAllTasks();
 
-    console.log(allTasks.data)
+    console.log(allTasks)
     
 
 
