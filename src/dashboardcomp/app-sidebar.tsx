@@ -41,7 +41,7 @@ const data = {
       items: [
         {
           title: "My Tasks",
-          url: "mytasks",
+          url: "/dashboard/mytasks",
         },
         {
           title: "Starred",

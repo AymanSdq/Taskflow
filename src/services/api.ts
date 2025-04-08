@@ -1,5 +1,6 @@
 import { loginUser, passwordUser, registerUser } from "@/types/userInterface";
 import axios from "axios";
+import { data } from "react-router";
 
 const BASE_URL = "http://127.0.0.1:3000";
 const axiosInstance = axios.create({baseURL : BASE_URL})
@@ -31,6 +32,27 @@ export const logUser = async (data : loginUser) => {
     }
 }
 
+
+// Change Password 
+export const changePass = async (data : passwordUser, token : string) => {
+    try {
+
+        const response = await axiosInstance.patch("/user/changepassword",  data , {
+            headers : {
+                Authorization: `Bearer ${token}`
+            }
+        } );
+        
+        return response.data
+    } catch (error : any) {
+        if (axios.isAxiosError(error)) {
+            throw error
+        }
+        throw new Error("Network error");
+    }
+}
+
+
 // Get User data 
 export const getUser = async ( token : string) => {
     try {
@@ -48,16 +70,14 @@ export const getUser = async ( token : string) => {
     }
 }
 
-// Change Password 
-export const changePass = async (data : passwordUser, token : string) => {
+// Get all todos
+export const getAllTodos = async (token : string) => {
     try {
-
-        const response = await axiosInstance.patch("/user/changepassword",  data , {
-            headers : {
+        const response = await axiosInstance.get("/tasks/alltasks", {
+            headers: {
                 Authorization: `Bearer ${token}`
             }
-        } );
-        
+        })
         return response.data
     } catch (error : any) {
         if (axios.isAxiosError(error)) {
