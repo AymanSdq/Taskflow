@@ -1,6 +1,6 @@
 import { loginUser, passwordUser, registerUser } from "@/types/userInterface"
 import { useMutation } from "@tanstack/react-query"
-import { changePass, createUser, logUser } from "./api"
+import { changePass, createUser, deleteTodo, logUser } from "./api"
 
 // register
 export const useRegister = () => {
@@ -46,6 +46,23 @@ export const usePassChange = () => {
         mutationFn : (data : passwordUser) => changePass(data, token),
         onSuccess: (data) => {
             console.log("✅ Success:", data);
+        },
+        onError : (error : Error) => {
+            console.error("❌ Error:", error.message);
+        },
+        
+    })
+}
+
+export const useDeleteTask = () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+        throw new Error("No Token found");
+    }
+    return useMutation({
+        mutationFn : (taskid : string) => deleteTodo(token, taskid),
+        onSuccess: (data) => {
+            console.log("✅ Task Deleted:", data);
         },
         onError : (error : Error) => {
             console.error("❌ Error:", error.message);

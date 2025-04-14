@@ -1,14 +1,26 @@
 import { useGetAllTasks } from "@/services/query";
-
+import { Button } from "@/components/ui/button"
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { useDeleteTask } from "@/services/mutations";
 
 
 
 
 const MyTasks = () => {
-
+    // Get all tasks
     const { data: allTasks, isError: allTasksError, isSuccess: allTasksSuccess, isLoading: allTasksLoading} = useGetAllTasks();
-
-    console.log(allTasks)
+    // Delete a task
+    const {mutate : deleteTask} = useDeleteTask();
     
 
 
@@ -67,10 +79,31 @@ const MyTasks = () => {
                         <th scope="row" className="px-6 py-6">
                             {oneTask.title}
                         </th>
-                        <td className="px-6 py-6">{oneTask.description}</td>
-                        <td className="px-6 py-6">{oneTask.status}</td>
+                        <td className="px-6 py-6">{oneTask.description?.split(' ').slice(0, 3).join(' ') + '...'}</td>
+                        <td className="px-6 py-6">{oneTask.status }</td>
                         <td className="px-6 py-6">{oneTask.priority}</td>
-                        <td className="px-6 py-6"><input type="hidden" name="idTask" value={oneTask.taskid} /></td>
+                        <td className="px-6 py-6 gap-2 flex">
+                            <input type="hidden" name="idTask" value={oneTask.taskid} />
+                            <Button className="bg-green-500 text-white">Edit</Button>
+                            <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                    <Button className="cursor-pointer" variant="destructive">Delete</Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        This action cannot be undone. This will permanently delete your
+                                        Task and remove the task data from our servers.
+                                    </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                    <AlertDialogAction>Continue</AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+                        </td>
                         </tr>
 
                     ) )}

@@ -86,3 +86,20 @@ export const getAllTodos = async (token : string) => {
         throw new Error("Network error");
     }
 }
+
+// Delete oneTodo
+export const deleteTodo = async (token : string, taskid : string) => {
+    try {
+        const response = await axiosInstance.delete(`/tasks/deletetask/${taskid}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return response.data
+    } catch (error : any) {
+        if (axios.isAxiosError(error)) {
+            throw error
+        }
+        throw new Error("Network error");
+    }
+}
