@@ -2,7 +2,7 @@ import { loginUser, passwordUser, registerUser } from "@/types/userInterface";
 import axios from "axios";
 import { data } from "react-router";
 
-const BASE_URL = "http://192.168.11.102:3000";
+const BASE_URL = "http://192.168.1.120:3000";
 const axiosInstance = axios.create({baseURL : BASE_URL})
 
 
